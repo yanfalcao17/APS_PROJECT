@@ -16,7 +16,7 @@ export default function App() {
         source={{
           uri: "https://cdn.pixabay.com/video/2022/07/24/125314-733046618_large.mp4",
         }}
-        resizeMode={ResizeMode.CONTAIN}
+        resizeMode={ResizeMode.COVER}
         shouldPlay
         isLooping
         onPlaybackStatusUpdate={(status) => setStatus(() => status)}

@@ -1,21 +1,41 @@
 import React from "react";
 import { StyleSheet, Text, View, TextInput, Button, ScrollView } from "react-native";
+import { useState } from "react";
+
 
 const ChatScreen = () => {
+  const [messages, setMessages] = useState([
+    { text: "Hello! How can I help you today?", sender: "bot" },
+    { text: "I need some advice on managing stress.", sender: "user" },
+    { text: "Sure, let's talk about that.", sender: "bot" },
+  ]);
+  const [inputText, setInputText] = useState("");
+
+  const sendMessage = () => {
+    if (inputText.trim().length > 0) {
+      setMessages([...messages, { text: inputText, sender: "user" }]);
+      setInputText("");
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Chat</Text>
       <ScrollView style={styles.chatContainer}>
-        <Text style={styles.message}>Hello! How can I help you today?</Text>
-        <Text style={styles.messageRight}>I need some advice on managing stress.</Text>
-        <Text style={styles.message}>Sure, let's talk about that.</Text>
+        {messages.map((msg, index) => (
+          <Text key={index} style={msg.sender === "user" ? styles.messageRight : styles.message}>
+            {msg.text}
+          </Text>
+        ))}
       </ScrollView>
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
           placeholder="Type your message..."
+          value={inputText}
+          onChangeText={setInputText}
         />
-        <Button title="Send" onPress={() => {}} color="#4A90E2" />
+        <Button title="Send" onPress={sendMessage} color="#4A90E2" />
       </View>
     </View>
   );
