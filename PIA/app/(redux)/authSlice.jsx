@@ -1,5 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getUser } from "../(services)/api/api";
 
 // Function to load user from AsyncStorage
 const loadUserFromStorage = async () => {
@@ -11,6 +12,18 @@ const loadUserFromStorage = async () => {
     return null;
   }
 };
+
+export const fetchUserProfile = createAsyncThunk(
+  "auth/fetchUserProfile",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await getUser(); 
+      return response.user; // Retorna os dados do usuário
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || "Erro ao buscar usuário");
+    }
+  }
+);
 
 const initialState = {
   user: null,
@@ -40,6 +53,7 @@ const authSlice = createSlice({
     },
   },
 });
+
 
 export const { loginAction, logoutAction, setUser, setLoading } =
   authSlice.actions;

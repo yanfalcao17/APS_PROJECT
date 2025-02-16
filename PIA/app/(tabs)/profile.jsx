@@ -1,15 +1,18 @@
-import React from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import React, { useEffect } from "react";
+import { View, StyleSheet, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-
 import { useRouter } from "expo-router";
-import { logoutAction } from "../(redux)/authSlice";
+import { logoutAction, fetchUserProfile } from "../(redux)/authSlice";
 import ProtectedRoute from "../../components/ProtectedRoute";
 
 export default function Profile() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.user);
+  const { user, status, error } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(fetchUserProfile()); // Busca os dados ao carregar a tela
+  }, [dispatch]);
 
   const handleLogout = () => {
     dispatch(logoutAction());
@@ -20,9 +23,14 @@ export default function Profile() {
     <ProtectedRoute>
       <View style={styles.container}>
         <Text style={styles.title}>User Profile</Text>
-        {user ? (
+        {status === "loading" ? (
+          <ActivityIndicator size="large" color="#6200ea" />
+        ) : error ? (
+          <Text style={styles.errorText}>{error}</Text>
+        ) : user ? (
           <>
             <Text style={styles.text}>Email: {user.email}</Text>
+            <Text style={styles.text}>Nome: {user.name}</Text>
             <TouchableOpacity style={styles.button} onPress={handleLogout}>
               <Text style={styles.buttonText}>Logout</Text>
             </TouchableOpacity>
@@ -65,5 +73,10 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 18,
     fontWeight: "bold",
+  },
+  errorText: {
+    color: "red",
+    fontSize: 16,
+    marginBottom: 16,
   },
 });

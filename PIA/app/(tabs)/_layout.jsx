@@ -1,5 +1,6 @@
 import { Tabs } from "expo-router";
 import { FontAwesome } from "@expo/vector-icons";
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 export default function RootLayout() {
   return (
     <Tabs>
@@ -14,7 +15,6 @@ export default function RootLayout() {
           ),
         }}
       />
-      {/* profile */}
 
       <Tabs.Screen
         name="profile"
@@ -40,7 +40,7 @@ export default function RootLayout() {
         options={{
           title: "Emotions",
           tabBarIcon: ({ color }) => (
-            <FontAwesome size={28} name="emoji-emotions" color={color} />
+            <MaterialIcons name="emoji-emotions" size={28} color={color} />
           ),
         }}
       />

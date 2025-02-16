@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity, ImageBackground } from "react-native";
 import { Video, ResizeMode } from "expo-av";
 import { useRouter } from "expo-router";
 
@@ -9,39 +9,27 @@ export default function App() {
   const router = useRouter();
 
   return (
-    <View style={styles.container}>
-      <Video
-        ref={video}
-        style={styles.video}
-        source={{
-          uri: "https://cdn.pixabay.com/video/2022/07/24/125314-733046618_large.mp4",
-        }}
-        resizeMode={ResizeMode.COVER}
-        shouldPlay
-        isLooping
-        onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-      />
+    <ImageBackground 
+      source={{ uri: "https://cdn.pixabay.com/photo/2024/04/19/22/25/man-8707406_1280.png" }}
+      style={styles.container}
+      resizeMode="cover"
+    >
       <View style={styles.overlay}>
         <Text style={styles.mainText}>PsyAi</Text>
         <Text style={styles.subText}>mindfulness app</Text>
       </View>
+
       <View style={styles.buttons}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => router.push("/auth/login")}
-        >
+        <TouchableOpacity style={styles.button} onPress={() => router.push("/auth/login")}>
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => router.push("/auth/register")}
-        >
+        <TouchableOpacity style={styles.button} onPress={() => router.push("/auth/register")}>
           <Text style={styles.buttonText}>Register</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </ImageBackground>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

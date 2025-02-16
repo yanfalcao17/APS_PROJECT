@@ -1,30 +1,28 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, FlatList } from "react-native";
+
+const emojiOptions = ["😀", "😢", "😡", "😱", "😍", "🥰", "🤔", "😴", "😎", "😭"];
 
 const EmotionsScreen = () => {
-  const [emotion, setEmotion] = useState('');
   const [emotionsList, setEmotionsList] = useState([]);
 
-  const addEmotion = () => {
-    if (emotion.trim()) {
-      setEmotionsList([...emotionsList, { id: Date.now().toString(), emotion }]);
-      setEmotion('');
-    }
+  const addEmotion = (selectedEmoji) => {
+    setEmotionsList([...emotionsList, { id: Date.now().toString(), emotion: selectedEmoji }]);
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Add Your Emotion</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter your emotion"
-        value={emotion}
-        onChangeText={setEmotion}
-      />
-      <TouchableOpacity style={styles.button} onPress={addEmotion}>
-        <Text style={styles.buttonText}>Add Emotion</Text>
-      </TouchableOpacity>
-      <Text style={styles.subtitle}>Emotion History</Text>
+      <Text style={styles.title}>Como você está se sentindo?</Text>
+
+      <View style={styles.emojiContainer}>
+        {emojiOptions.map((emoji, index) => (
+          <TouchableOpacity key={index} style={styles.emojiButton} onPress={() => addEmotion(emoji)}>
+            <Text style={styles.emoji}>{emoji}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+
+      <Text style={styles.subtitle}>Histórico de Emoções</Text>
       <FlatList
         data={emotionsList}
         keyExtractor={(item) => item.id}
@@ -41,50 +39,41 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 20,
-    backgroundColor: "#edf6f9",
+    backgroundColor: "#EDEDED",
+    padding: 16,
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,
     textAlign: "center",
-    color: "#264653",
+    color: "#333",
   },
-  input: {
-    height: 50,
-    borderColor: "#ccc",
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingHorizontal: 16,
-    marginBottom: 16,
-    backgroundColor: "#fff",
-    width: "100%",
-  },
-  button: {
-    height: 50,
-    backgroundColor: "#2a9d8f",
+  emojiContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
     justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 8,
     marginBottom: 20,
-    width: "100%",
   },
-  buttonText: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "bold",
+  emojiButton: {
+    backgroundColor: "#FFF",
+    padding: 10,
+    margin: 5,
+    borderRadius: 10,
+    elevation: 2,
+  },
+  emoji: {
+    fontSize: 30,
   },
   subtitle: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "bold",
-    marginBottom: 10,
-    textAlign: "center",
-    color: "#264653",
+    marginTop: 20,
+    color: "#666",
   },
   emotionItem: {
-    fontSize: 18,
-    color: "#264653",
-    marginBottom: 10,
+    fontSize: 24,
+    marginTop: 10,
+    textAlign: "center",
   },
 });
