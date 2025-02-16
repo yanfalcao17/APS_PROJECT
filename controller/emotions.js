@@ -1,6 +1,5 @@
 const Emotion = require("../model/Emotion");
 const asyncHandler = require("express-async-handler");
-const emotionObserver = require("../middlewares/emotionObserver");
 
 const emotionCtrl = {
   //!Add Emotion
@@ -24,7 +23,6 @@ const emotionCtrl = {
       note,
       userId: req.user._id,
     });
-    emotionObserver.notify(Emotion);
 
     res.json({
       message: "Emoção registrada com sucesso!",
@@ -63,7 +61,6 @@ const emotionCtrl = {
     existingEmotion.note = note || existingEmotion.note;
 
     const updatedEmotion = await existingEmotion.save();
-    emotionObserver.notify(Emotion);
 
     res.json({
       message: "Emotion updated successfully",
