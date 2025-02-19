@@ -1,7 +1,7 @@
 import axios from "axios";
 import emotionObserver from "../../../observer/emotionObserver";
 
-const API_BASE_URL = "https://fair-meals-tickle.loca.lt/api";
+const API_BASE_URL = "http://localhost:8000/api";
 
 // 📌 Função auxiliar para requisições com tratamento de erro
 const apiRequest = async (method, url, data = {}) => {

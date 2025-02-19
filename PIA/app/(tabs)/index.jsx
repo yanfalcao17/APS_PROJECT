@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TextInput, Button, ScrollView } from "react-nat
 import OpenAI from "openai";
 import emotionObserver from "../../observer/emotionObserver"; 
 
-const API_KEY = "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";
+const API_KEY = "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";
 
 const openai = new OpenAI({
   apiKey: API_KEY,
